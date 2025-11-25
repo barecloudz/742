@@ -238,6 +238,8 @@ function App() {
     // Change page when truck is in the middle of screen
     setTimeout(() => {
       setCurrentPage(page)
+      window.scrollTo(0, 0)
+      document.querySelector('.app-content')?.scrollTo(0, 0)
     }, 400)
 
     // Hide overlay and trigger fade in after animation completes
