@@ -225,40 +225,73 @@ function PrizesPage() {
 // Main App Component
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [nextPage, setNextPage] = useState(null)
+  const [fadeIn, setFadeIn] = useState(false)
+
+  const handleNavigation = (page) => {
+    if (page === currentPage) return
+    setNextPage(page)
+    setIsTransitioning(true)
+    setFadeIn(false)
+
+    // Change page when truck is in the middle of screen
+    setTimeout(() => {
+      setCurrentPage(page)
+    }, 400)
+
+    // Hide overlay and trigger fade in after animation completes
+    setTimeout(() => {
+      setIsTransitioning(false)
+      setNextPage(null)
+      setFadeIn(true)
+    }, 800)
+  }
 
   return (
     <div className="app-container">
+      {/* Page Transition Overlay */}
+      {isTransitioning && (
+        <div className="transition-overlay">
+          <img src="/truck.svg" alt="FedEx Truck" className="transition-truck" />
+        </div>
+      )}
+
       {/* Header */}
       <header className="app-header">
-        <img src="/logo.png" alt="742 Logistics" className="logo" />
+        <img src="/74slogo.svg" alt="742 Logistics" className="logo" />
       </header>
 
       {/* Content Area */}
-      <main className="app-content">
-        {currentPage === 'home' && <HomePage onNavigate={setCurrentPage} />}
+      <main className={`app-content ${isTransitioning ? 'transitioning' : ''} ${fadeIn ? 'fade-in' : ''}`}>
+        {currentPage === 'home' && <HomePage onNavigate={handleNavigation} />}
         {currentPage === 'howToWin' && <HowToWinPage />}
         {currentPage === 'prizes' && <PrizesPage />}
+
+        <footer className="app-footer">
+          Developed by <a href="https://nardonidigital.com" target="_blank" rel="noopener noreferrer">Nardoni Digital</a>
+        </footer>
       </main>
 
       {/* Bottom Navigation */}
       <nav className="bottom-nav">
         <button
           className={`nav-button ${currentPage === 'home' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('home')}
+          onClick={() => handleNavigation('home')}
         >
           <span className="nav-icon">🏠</span>
           <span>Home</span>
         </button>
         <button
           className={`nav-button ${currentPage === 'howToWin' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('howToWin')}
+          onClick={() => handleNavigation('howToWin')}
         >
           <span className="nav-icon">📋</span>
           <span>How to Win</span>
         </button>
         <button
           className={`nav-button ${currentPage === 'prizes' ? 'active' : ''}`}
-          onClick={() => setCurrentPage('prizes')}
+          onClick={() => handleNavigation('prizes')}
         >
           <span className="nav-icon">🎁</span>
           <span>Prizes</span>

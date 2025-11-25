@@ -1,3 +1,50 @@
+/* Page Transition */
+.transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.transition-truck {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 200px;
+  width: auto;
+  animation: truckDrive 0.8s ease-in-out forwards;
+}
+
+@keyframes truckDrive {
+  0% {
+    left: -200px;
+  }
+  100% {
+    left: calc(100% + 200px);
+  }
+}
+
+.app-content.transitioning {
+  opacity: 0;
+}
+
+.app-content.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 /* App Container */
 .app-container {
   width: 100%;
@@ -16,7 +63,7 @@
 
 /* Header */
 .app-header {
-  padding: 24px;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,11 +76,11 @@
 }
 
 .logo {
-  height: 60px;
+  height: 140px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   transition: transform 0.3s ease;
+  margin: -24px 0;
 }
 
 .logo:hover {
@@ -46,6 +93,26 @@
   overflow-y: auto;
   padding: 24px;
   padding-bottom: 100px;
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  padding: 24px 0;
+  margin-top: 32px;
+  font-size: 12px;
+  color: #ffffff;
+}
+
+.app-footer a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.app-footer a:hover {
+  color: #000000;
 }
 
 /* Bottom Navigation */
